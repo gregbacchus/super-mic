@@ -1,0 +1,15 @@
+[Unit]
+Description=Keypad colour follows microphone state
+After=pipewire-pulse.service
+Wants=pipewire-pulse.service
+
+[Service]
+# The user manager can start before login shells extend PATH; include common
+# locations for `pactl` (distro package, or Homebrew on Linux).
+Environment=PATH=/usr/local/bin:/usr/bin:/bin:/home/linuxbrew/.linuxbrew/bin
+ExecStart=%h/.cargo/bin/super-mic
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

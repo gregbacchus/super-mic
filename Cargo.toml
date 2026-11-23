@@ -1,0 +1,14 @@
+[package]
+name = "super-mic"
+version = "0.1.0"
+edition = "2024"
+description = "Colours a Winry315 keypad's backlight to show microphone mute/in-use state"
+readme = "README.md"
+publish = false
+
+[dependencies]
+serde_json = "1.0.154"
+
+[profile.release]
+lto = true
+strip = true
