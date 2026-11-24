@@ -1,0 +1,37 @@
+# Copy to ~/.config/super-mic/config.yaml and restart the service.
+#
+# Each shortcut applies while ALL its keys are held (any order) and acts on ALL
+# microphones. The keys are hidden from other apps (a key that might be part of
+# a chord is held back up to 150 ms; lone taps still pass through).
+#   mute   - muted while held, previous state restored on release
+#   unmute - unmuted while held, previous state restored on release
+#   toggle - inverts the state of the mic(s) apps are using, while held (in-use
+#            mic live -> mute all, in-use mics muted -> unmute all), restored on release
+#
+# Key names: evdev names (KEY_COMPOSE, KEY_F13) or short forms (menu, r_ctrl,
+# r_shift, l_alt, f13, a). `menu` is the keyboard Menu key (KEY_COMPOSE).
+# Find a key's name with: sudo evtest   (pick the device, press the key)
+#
+# `devices` limits a shortcut to matching input devices (all given fields must
+# match: name = case-insensitive substring; vendor/product = USB ids). Omit it
+# to allow any keyboard that actually has all the keys. Devices with no matching
+# shortcut are never touched. Defining `shortcuts` replaces the defaults.
+shortcuts:
+  # Defaults (any keyboard that has a Menu key):
+  - action: mute
+    keys: [r_ctrl, menu]
+  - action: unmute
+    keys: [r_ctrl, r_shift, menu]
+
+  # Laptop keyboard only (has no Menu key):
+  # - action: toggle
+  #   keys: [r_ctrl, r_alt]
+  #   devices:
+  #     - name: AT Translated Set 2 keyboard
+
+  # A dedicated key on the external keypad:
+  # - action: toggle
+  #   keys: [f13]
+  #   devices:
+  #     - vendor: 0xf1f1
+  #       product: 0x0315

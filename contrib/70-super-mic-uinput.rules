@@ -1,0 +1,3 @@
+# Let members of the `input` group create virtual keyboards (used to re-emit
+# keys after super-mic grabs a keyboard for its hold-to-mute hotkeys).
+KERNEL=="uinput", SUBSYSTEM=="misc", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"

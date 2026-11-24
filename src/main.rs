@@ -3,7 +3,12 @@
 //! * yellow – no app is recording from a microphone
 //! * green  – apps are using microphone(s) and every one of them is muted
 //! * red    – an app is using a microphone that is unmuted
+//!
+//! Also: hold-to-mute/unmute global hotkeys (see `input.rs`, `config.rs`).
 
+mod config;
+mod hotkey;
+mod input;
 mod keypad;
 mod mic;
 
@@ -26,6 +31,16 @@ fn color_for(state: MicState) -> Color {
 fn main() {
     let (tx, rx) = mpsc::channel();
     mic::spawn_event_watcher(tx);
+
+    // Hold-to-talk style hotkeys. A broken config disables hotkeys but not the colours.
+    match config::load() {
+        Ok(shortcuts) => {
+            let (htx, hrx) = mpsc::channel();
+            mic::spawn_mute_controller(hrx);
+            input::spawn(shortcuts, htx);
+        }
+        Err(e) => eprintln!("config error, hotkeys disabled: {e}"),
+    }
 
     let mut keypad = Keypad::new();
     let mut last: Option<MicState> = None;
